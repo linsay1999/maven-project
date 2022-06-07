@@ -203,7 +203,7 @@ Alternatively if you want to just have a single hero
 	<div class="container mx-auto">
 
 		<div class="flex flex-col w-full lg:w-1/2 justify-center items-start  px-6 tracking-wide">
-			<h1 class="text-black text-2xl my-4">EK TECH SOFTWARE SOLUTION</h1>
+			<h1 class="text-black text-2xl my-4">ALFRED INNOVATIVE TRADING</h1>
 			<a class="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black" href="#">products</a>
 
 		</div>
@@ -222,7 +222,7 @@ Alternatively if you want to just have a single hero
                 <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
 
                     <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl " href="#">
-				EK TECH SOFTWARE SOLUTION ARENA
+				ALFRED INNOVATIVE TRADING
 			</a>
 
                     <div class="flex items-center" id="store-nav-content">
@@ -374,7 +374,7 @@ Alternatively if you want to just have a single hero
             <div class="w-full mx-auto flex flex-wrap">
                 <div class="flex w-full lg:w-1/2 ">
                     <div class="px-3 md:px-0">
-                        <h3 class="font-bold text-gray-900">About EK TECH SOFTWARE SOLUTION Articles </h3>
+                        <h3 class="font-bold text-gray-900">About ALFRED INNOVATIVE TRADING Articles </h3>
                         <p class="py-4">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel mi ut felis tempus commodo nec id erat. Suspendisse consectetur dapibus velit ut lacinia.
                         </p>
