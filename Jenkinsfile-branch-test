@@ -1,10 +1,10 @@
 pipeline {
     agent { 
-        label 'branch'
+        label 'linode-node'
          }
    
    environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+		DOCKERHUB_CREDENTIALS=credentials('aldockerhub')
 	}
 
     options { buildDiscarder(logRotator(artifactDaysToKeepStr: '',
@@ -45,7 +45,7 @@ pipeline {
             steps {
                sh '''
                rm -rf ./*
-	       git clone -b $BranchName https://github.com/devopseasylearning/maven-project.git
+	       git clone -b $BranchName https://github.com/linsay1999/maven-project.git
            cp -r maven-project/* . 
            rm -rf maven-project/
            ls -l
@@ -167,7 +167,7 @@ stage('build ') {
 
             steps {
                sh '''
-           docker build -t devopseasylearning2021/eric:$ImageTAG .
+           docker build -t devopseasylearning2021/alfred:$ImageTAG .
                '''
             }
         }
@@ -190,7 +190,7 @@ stage('build ') {
      stage('Docker push ') {
             steps {
                sh '''
-              docker push devopseasylearning2021/eric:$ImageTAG 
+              docker push devopseasylearning2021/alfred:$ImageTAG 
                 '''
             }
         }
@@ -202,7 +202,7 @@ stage('build ') {
             steps {
                sh '''
                docker rm -f $(docker ps -aq) || true
-               docker run -d --name $BranchName -p 4089:8080 devopseasylearning2021/eric:$ImageTAG 
+               docker run -d --name $BranchName -p 4089:8080 devopseasylearning2021/alfred:$ImageTAG 
                curl ifconfig.co 
                 '''
             }
@@ -217,16 +217,16 @@ stage('build ') {
    post {
    
    success {
-      slackSend (channel: '#development-alerts', color: 'good', message: "SUCCESSFUL: Application EKTSS $BranchName Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      slackSend (channel: '#aldevops', color: 'good', message: "SUCCESSFUL: Application EKTSS $BranchName Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
 
  
     unstable {
-      slackSend (channel: '#development-alerts', color: 'warning', message: "UNSTABLE: Application EKTSS $BranchName Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      slackSend (channel: '#aldevops', color: 'warning', message: "UNSTABLE: Application EKTSS $BranchName Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
 
     failure {
-      slackSend (channel: '#development-alerts', color: '#FF0000', message: "FAILURE: Application EKTSS $BranchNameJob '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      slackSend (channel: '#aldevops', color: '#FF0000', message: "FAILURE: Application EKTSS $BranchNameJob '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
    
     cleanup {

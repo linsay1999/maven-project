@@ -1,10 +1,10 @@
 pipeline {
     agent { 
-        label 'main'
+        label 'linode-node'
          }
    
    environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+		DOCKERHUB_CREDENTIALS=credentials('aldockerhub')
 	}
 
     options { buildDiscarder(logRotator(artifactDaysToKeepStr: '',
@@ -173,7 +173,7 @@ stage('build ') {
 
             steps {
                sh '''
-           docker build -t devopseasylearning2021/eric:$ImageTAG .
+           docker build -t devopseasylearning2021/alfred:$ImageTAG .
                '''
             }
         }
@@ -196,7 +196,7 @@ stage('build ') {
      stage('Docker push ') {
             steps {
                sh '''
-              docker push devopseasylearning2021/eric:$ImageTAG 
+              docker push devopseasylearning2021/alfred:$ImageTAG 
                 '''
             }
         }
@@ -208,7 +208,7 @@ stage('build ') {
             steps {
                sh '''
                docker rm -f $(docker ps -aq) || true
-               docker run -d --name deploy -p 6089:8080 devopseasylearning2021/eric:$ImageTAG 
+               docker run -d --name deploy -p 6089:8080 devopseasylearning2021/alfred:$ImageTAG 
                curl ifconfig.co 
                 '''
             }
@@ -243,9 +243,9 @@ stage('build ') {
 
 def notifyUpgrade(String buildResult, String whereAt) {
   if (Please_leave_this_section_as_it_is == 'origin/develop') {
-    channel = 'development-alerts'
+    channel = 'aldevops'
   } else {
-    channel = 'development-alerts'
+    channel = 'aldevops'
   }
   if (buildResult == "SUCCESS") {
     switch(whereAt) {

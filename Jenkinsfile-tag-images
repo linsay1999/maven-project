@@ -1,10 +1,10 @@
 pipeline {
     agent { 
-        label 'node1'
+        label 'linode-node'
          }
    
    environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+		DOCKERHUB_CREDENTIALS=credentials('aldockerhub')
 	}
 
     options { buildDiscarder(logRotator(artifactDaysToKeepStr: '',
@@ -41,7 +41,7 @@ pipeline {
             steps {
                sh '''
                rm -rf ./*
-	       git clone -b $BranchName https://github.com/devopseasylearning/maven-project.git
+	       git clone -b $BranchName https://github.com/linsay1999/maven-project.git
            cp -r maven-project/* . 
            rm -rf maven-project/
            ls -l
@@ -103,16 +103,16 @@ stage('build ') {
    post {
    
    success {
-      slackSend (channel: '#testing-alerts', color: 'good', message: "SUCCESSFUL: A new image is ready for testing,  with CERTIFIED tag $ImageTAG, Application MONEY   Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      slackSend (channel: '#aldevops', color: 'good', message: "SUCCESSFUL: A new image is ready for testing,  with CERTIFIED tag $ImageTAG, Application MONEY   Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
 
  
     unstable {
-      slackSend (channel: '#development-alerts', color: 'warning', message: "UNSTABLE: Application MONEY $BranchName  $ImageTAG Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      slackSend (channel: '#aldevops', color: 'warning', message: "UNSTABLE: Application MONEY $BranchName  $ImageTAG Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
 
     failure {
-      slackSend (channel: '#development-alerts', color: '#FF0000', message: "FAILURE: Application MONEY $BranchNameJob  $ImageTAG '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      slackSend (channel: '#aldevops', color: '#FF0000', message: "FAILURE: Application MONEY $BranchNameJob  $ImageTAG '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
    
     cleanup {

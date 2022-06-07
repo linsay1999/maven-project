@@ -1,6 +1,6 @@
 pipeline {
     agent { 
-        label 'node1'
+        label 'linode-node'
          }
    
 
@@ -173,9 +173,9 @@ stage('Test6') {
 
 def notifyUpgrade(String buildResult, String whereAt) {
   if (Please_leave_this_section_as_it_is == 'origin/develop') {
-    channel = 'testing-alerts'
+    channel = 'aldevops'
   } else {
-    channel = 'testing-alerts'
+    channel = 'aldevops'
   }
   if (buildResult == "SUCCESS") {
     switch(whereAt) {

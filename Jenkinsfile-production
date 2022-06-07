@@ -1,10 +1,10 @@
 pipeline {
     agent { 
-        label 'production'
+        label 'linode-node'
          }
    
    environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+		DOCKERHUB_CREDENTIALS=credentials('aldockerhub')
 	}
 
     options { buildDiscarder(logRotator(artifactDaysToKeepStr: '',
@@ -131,9 +131,9 @@ curl ifconfig.co
 
 def notifyUpgrade(String buildResult, String whereAt) {
   if (Please_leave_this_section_as_it_is == 'origin/develop') {
-    channel = 'production-alerts'
+    channel = 'aldevops'
   } else {
-    channel = 'production-alerts'
+    channel = 'aldevops'
   }
   if (buildResult == "SUCCESS") {
     switch(whereAt) {
