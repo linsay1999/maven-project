@@ -2,19 +2,15 @@ pipeline {
     agent { 
         label 'linode-node'
          }
-   
-   environment {
+      environment {
 		DOCKERHUB_CREDENTIALS=credentials('aldockerhub')
 	}
-
     options { buildDiscarder(logRotator(artifactDaysToKeepStr: '',
      artifactNumToKeepStr: '', daysToKeepStr: '3', numToKeepStr: '5'))
       disableConcurrentBuilds() }
-      
-
+  
     stages {
-        
-       stage('Setup parameters') {
+           stage('Setup parameters') {
             steps {
                 script { 
                     properties([
@@ -36,13 +32,8 @@ pipeline {
             }
         }
 
-
-
-
  stage(' cloning') {
-   
-
-            steps {
+               steps {
                sh '''
                rm -rf ./*
 	       git clone -b $BranchName https://github.com/linsay1999/maven-project.git
@@ -52,33 +43,30 @@ pipeline {
                '''
             }
         }
-
-        stage('clean') {
-            agent {
-                 docker { image 'maven:3.8.5-openjdk-8-slim' }
-             }
-
+       
+         stage("build & SonarQube analysis") {
+            agent any
             steps {
-               sh '''
-	       rm -rf webapp.war
-               rm -rf webapp/target/
-	      ls -l webapp
-              mvn clean
-               '''
+                 sh '''
+	               rm -rf webapp.war
+                rm -rf webapp/target/
+	               ls -l webapp
+                '''
+              withSonarQubeEnv('ektech-sonarqube') {
+                sh 'mvn clean compile package sonar:sonar'
+              }
             }
-        }
-
-        stage('compile') {
-            agent {
-                 docker { image 'maven:3.8.5-openjdk-8-slim' }
-             }
-
+          }
+          stage("Quality Gate") {
             steps {
-               sh '''
-             mvn compile
-               '''
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
             }
+          }
         }
+      }
+
 
 stage('validate') {
     agent {
