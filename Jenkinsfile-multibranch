@@ -115,7 +115,7 @@ stage('install') {
         scannerHome='/opt/sonar-scanner'
     }
             steps{
-                withSonarQubeEnv('Sonar') {
+                withSonarQubeEnv('ektech-sonarqube') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
